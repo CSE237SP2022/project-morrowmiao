@@ -37,7 +37,7 @@ public class parkingLotProgram {
 			else{
 				Vehicle car = new Vehicle(name, 1);//size doesnt matter for now
 				while(true) {
-					input = ap.nextString("Do you want to us to park your car for you?");
+					input = ap.nextString("Do you want to us to park your car for you?(Yes or No)");
 					if (input.equals("Yes")) {
 						if(parking.park(car, name)) {
 							System.out.println("You have successfully parked your car!");					
@@ -46,14 +46,14 @@ public class parkingLotProgram {
 						}
 						break;
 					}else {
-						int l = ap.nextInt("Which floor would you like to park?");
-						int r = ap.nextInt("Which row would you like to park?");					
-						int s = ap.nextInt("Which slot would you like to park?");
-						while(l>=levels||r>=rows||s>=slots||l<=0||r<0||s<0) {
+						int l = ap.nextInt("Which floor would you like to park?")-1;
+						int r = ap.nextInt("Which row would you like to park?")-1;					
+						int s = ap.nextInt("Which slot would you like to park?")-1;
+						while(l>=levels||r>=rows||s>=slots||l<0||r<0||s<0) {
 							System.out.println("Please enter valid values");
-							l = ap.nextInt("Which floor would you like to park?");
-							r = ap.nextInt("Which row would you like to park?");					
-							s = ap.nextInt("Which slot would you like to park?");
+							l = ap.nextInt("Which floor would you like to park?")-1;
+							r = ap.nextInt("Which row would you like to park?")-1;					
+							s = ap.nextInt("Which slot would you like to park?")-1;
 						}
 						
 						if(parking.park(car, name, l, r, s)) {
