@@ -3,13 +3,6 @@ import support.cse131.ArgsProcessor;
 public class parkingLotProgram {
 
 	
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		package parkingLotSpotPick;
-import support.cse131.ArgsProcessor;
-
-public class parkingLotProgram {
 	
 	
 
@@ -71,6 +64,3 @@ public class parkingLotProgram {
 
 }
 
-	}
-
-}
