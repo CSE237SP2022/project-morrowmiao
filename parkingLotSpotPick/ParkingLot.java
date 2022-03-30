@@ -21,6 +21,7 @@ public class ParkingLot {
 		levels = nlevel;
 		rows = nrow;
 		spots = nslotN;
+		parkingLotledger = new HashMap<String, parkingSlot>();
 		
 		parkingSlots = new parkingSlot[levels][rows][spots];
 		for(int l = 0;l<levels;l++) {
@@ -63,9 +64,12 @@ public class ParkingLot {
 		}
 		return false;
 	}
-
+	public boolean findOwner(String ownerName) {
+		return parkingLotledger.containsKey(ownerName);
+	}	
+	
 	public boolean leave(String ownerName) {
-		if(parkingLotledger.containsKey(ownerName)) {
+		if(findOwner(ownerName)) {
 			parkingSlot slot = parkingLotledger.get(ownerName);
 			if(slot.leave(ownerName)) {
 				parkingLotledger.remove(ownerName);

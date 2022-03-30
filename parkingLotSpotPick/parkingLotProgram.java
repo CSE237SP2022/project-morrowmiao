@@ -14,52 +14,56 @@ public class parkingLotProgram {
 		String remove = "remove";
 		String spot = "X";
 		String empty = " ";
-		int width = ap.nextInt("How wide would you like the parking lot to be?");
-		int height = ap.nextInt("How tall would you like the parking lot to be?");
+		int levels = ap.nextInt("Let's first setup the dimensions of your parking lot\n. How many levels do you want your parking lot to have?");
+		int rows = ap.nextInt("How many row would you like the parking lot to have for each floors?");
+		int slots = ap.nextInt("How many slots would you like for each row?");
 		int x = 0;
 		int y = 0;
-		String [] [] parkingLot = new String [width] [height];
-		for (String[] row: parkingLot)
-		    Arrays.fill(row, empty);
+		String input = "";
+		ParkingLot parking = new ParkingLot(levels,rows,slots) ;
 		//checks to see if the user wants to quit will check against the quit string
 		while(!quit.equals(ap.nextString("Type quit if you would like to quit."))) {
-			quit = ap.nextString("Would you like to remove or insert a car");
+			
+			String name = ap.nextString("What is your Name?");
+			if(parking.findOwner(name)) {
+				input =  ap.nextString("You parked your car here. Would you like to leave now?(Yes or No)");
+				if (input.equals("Yes")) {
+					parking.leave(name);
+					System.out.println("Have a nice day "+ name);					
+				}
+
+			}
 			//checks to see if the user wants to remove by checking the input against the remove string
-			if(quit.equals(remove)){
-				x = ap.nextInt("What X position would you like to remove?");
-				y = ap.nextInt("What Y position would you like to remove?");
-				while(x>width||y>height||x<0||y<0) {
-					System.out.println("Please enter valid X and Y values");
-					x = ap.nextInt("What X position would you like to remove?");
-					y = ap.nextInt("What Y position would you like to remove?");
-				}
-				while(parkingLot[x][y].equals(empty)) {
-					System.out.println("That spot is already empty please enter valid values.");
-					x = ap.nextInt("What X position would you like to insert?");
-					y = ap.nextInt("What Y position would you like to insert?");
-				}
-				parkingLot[x][y] = " ";
-			}
-			//checks to see if the user wants to remove by checking the input against the insert string
-			else if(quit.equals(insert)) {
-				x = ap.nextInt("What X position would you like to insert?");
-				y = ap.nextInt("What Y position would you like to insert?");
-				//checks to see if the x and y user input is valid and inputs an X at
-				while(x>width||y>height||x<0||y<0) {
-					System.out.println("Please enter valid X and Y values");
-					x = ap.nextInt("What X position would you like to insert?");
-					y = ap.nextInt("What Y position would you like to insert?");
-				}
-				while(parkingLot[x][y].equals(spot)) {
-					System.out.println("That spot is already taken please enter valid values.");
-					x = ap.nextInt("What X position would you like to insert?");
-					y = ap.nextInt("What Y position would you like to insert?");
-				}
-				parkingLot[x][y] = "X";
-			}
-			//tells the user they didn't select a valid input
-			else {
-				System.out.println("Please select to remove or insert a car or to quit.");
+			else{
+				Vehicle car = new Vehicle(name, 1);//size doesnt matter for now
+				while(true) {
+					input = ap.nextString("Do you want to us to park your car for you?");
+					if (input.equals("Yes")) {
+						if(parking.park(car, name)) {
+							System.out.println("You have successfully parked your car!");					
+						}else {
+							System.out.println("The parking lot is full!");											
+						}
+						break;
+					}else {
+						int l = ap.nextInt("Which floor would you like to park?");
+						int r = ap.nextInt("Which row would you like to park?");					
+						int s = ap.nextInt("Which slot would you like to park?");
+						while(l>=levels||r>=rows||s>=slots||l<=0||r<0||s<0) {
+							System.out.println("Please enter valid values");
+							l = ap.nextInt("Which floor would you like to park?");
+							r = ap.nextInt("Which row would you like to park?");					
+							s = ap.nextInt("Which slot would you like to park?");
+						}
+						
+						if(parking.park(car, name, l, r, s)) {
+							System.out.println("You have successfully parked your car!");					
+							break;
+						}
+						System.out.println("The slot you selected is occupied! Please try another");					
+					}
+					
+				}				
 			}
 		}
 	}
