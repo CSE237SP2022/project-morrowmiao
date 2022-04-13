@@ -47,7 +47,7 @@ public class parkingLotProgram {
 						if(parking.park(car, name)) {
 							System.out.println("You have successfully parked your car!");					
 						}else {
-							System.out.println("The parking lot is full!");											
+							System.out.println("The parking lot cannot fit your car!");											
 						}
 						break;
 					}else {
