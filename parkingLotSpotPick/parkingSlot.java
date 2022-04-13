@@ -5,6 +5,7 @@ public class parkingSlot {
 	private int level;
 	private int row;
 	private int slotN;
+	private parkingTimer timer;
 	
 	public parkingSlot(int nlevel, int nrow, int nslotN) {
 		level = nlevel;
@@ -30,16 +31,17 @@ public class parkingSlot {
     public boolean park(Vehicle car) {
     	if (this.isEmpty()) {
         	parkedCar = car;
+        	timer = new parkingTimer();
         	return true;    		
     	}
     	return false;
     }
-    public boolean leave(String ownerName) {
+    public long leave(String ownerName) {
     	if ((!this.isEmpty()) && parkedCar.getOwnerName().equals(ownerName)) {
-        	parkedCar = null;
-        	return true;
+        	parkedCar = null;  
+        	return timer.stop();
     	}
-		return false;
+		return -1;
     }
     
 

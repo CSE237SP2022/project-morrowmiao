@@ -6,21 +6,24 @@ public class ParkingLot {
 	private int rows;
 	private int spots;
 	private int levels;
+	private int price;
 	
 	private parkingSlot parkingSlots [][][];
 	private HashMap<String, parkingSlot> parkingLotledger;
 	
-	public ParkingLot(int nlevel, int nrow, int nslotN) {
-		if(nlevel <=0)
-			nlevel =1;
-		if(nrow <=0)
-			nrow =1;
-		if(nslotN <=0)
-			nslotN =1;		
+	public int toPossitive(int n) {
+		if(n <=0)
+			return 1;
+		return n;
+	}
+	
+	public ParkingLot(int nlevel, int nrow, int nslotN, int nprice) {
+
+		levels = toPossitive(nlevel);
+		rows = toPossitive(nrow);
+		spots = toPossitive(nslotN);
+		price = toPossitive(nprice);
 		
-		levels = nlevel;
-		rows = nrow;
-		spots = nslotN;
 		parkingLotledger = new HashMap<String, parkingSlot>();
 		
 		parkingSlots = new parkingSlot[levels][rows][spots];
@@ -31,6 +34,32 @@ public class ParkingLot {
 				}			
 			}
 		}
+	}
+	
+	//uses a sliding window to find if its possible to fit the car at spot location
+	private parkingSlot findSlotsInRow(parkingSlot row [], int slotsNeeded, int spot  ) {
+		if (!row[spot].isEmpty()) {
+			return null;
+		}
+		int i = spot - slotsNeeded;
+		while (i<row.length) {
+			i++;
+			if (i<0 || (!row[spot].isEmpty()))
+				continue;
+			int j = i;
+			while (row[j].isEmpty()) {
+				if (j-i >= slotsNeeded-1) {
+					return null;
+				}
+				j++;
+			}
+			i=j;
+		}
+		return null;
+	}
+	
+	private parkingSlot findSlotsInRow(parkingSlot row [], int slotsNeeded ) {
+		return null;
 	}
 	
 	private parkingSlot findFirstAvaliable() {
@@ -68,15 +97,19 @@ public class ParkingLot {
 		return parkingLotledger.containsKey(ownerName);
 	}	
 	
-	public boolean leave(String ownerName) {
+	public long leave(String ownerName) {
 		if(findOwner(ownerName)) {
 			parkingSlot slot = parkingLotledger.get(ownerName);
-			if(slot.leave(ownerName)) {
+			long parkedTime = slot.leave(ownerName);
+			if(parkedTime>0) {
 				parkingLotledger.remove(ownerName);
-				return true;
 			}
-			return false;
+			return parkedTime;
 		}
-		return false;
+		return -1;
+	}
+	
+	public long getPrice(long parkedTime) {
+		return price*parkedTime;
 	}
 }
