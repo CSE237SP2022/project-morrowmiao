@@ -1,3 +1,7 @@
-*.class
-/run.sh
+/.classpath
+/.gitignore
+/.project
+/README.md
 /parkingLotSpotPick/
+/run.sh
+/support/
