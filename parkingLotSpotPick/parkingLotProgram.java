@@ -17,10 +17,11 @@ public class parkingLotProgram {
 		int levels = ap.nextInt("Let's first setup the dimensions of your parking lot\n. How many levels do you want your parking lot to have?");
 		int rows = ap.nextInt("How many row would you like the parking lot to have for each floors?");
 		int slots = ap.nextInt("How many slots would you like for each row?");
+		int price = ap.nextInt("What price per second for the parking lot?");
 		int x = 0;
 		int y = 0;
 		String input = "";
-		ParkingLot parking = new ParkingLot(levels,rows,slots) ;
+		ParkingLot parking = new ParkingLot(levels,rows,slots,price) ;
 		//checks to see if the user wants to quit will check against the quit string
 		while(!quit.equals(ap.nextString("Type quit if you would like to quit."))) {
 			
@@ -28,14 +29,18 @@ public class parkingLotProgram {
 			if(parking.findOwner(name)) {
 				input =  ap.nextString("You parked your car here. Would you like to leave now?(Yes or No)");
 				if (input.equals("Yes")) {
-					parking.leave(name);
+					long parkedTime = parking.leave(name);
+					input  = "";
+					while (!input.equals("Yes")) {
+						input =  ap.nextString(String.format("Your car parked here for %d seconds, the total is $%d. Confirm payment?(Yes or No)",parkedTime,parking.getPrice(parkedTime) ));
+					}					
 					System.out.println("Have a nice day "+ name);					
 				}
-
 			}
 			//checks to see if the user wants to remove by checking the input against the remove string
 			else{
-				Vehicle car = new Vehicle(name, 1);//size doesnt matter for now
+				int carSize = parking.toPossitive(ap.nextInt("How big is your car?"));
+				Vehicle car = new Vehicle(name, carSize);//size doesnt matter for now
 				while(true) {
 					input = ap.nextString("Do you want to us to park your car for you?");
 					if (input.equals("Yes")) {
