@@ -1,6 +1,3 @@
-/.classpath
-/.project
-/ArgsProcessor/
-/parkingLotProgram.class
+*.class
+/run.sh
 /parkingLotSpotPick/
-/support/
