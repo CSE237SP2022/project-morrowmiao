@@ -1,6 +1,8 @@
+*.class
 /.classpath
+/.gitignore
 /.project
-/ArgsProcessor/
-/parkingLotProgram.class
+/README.md
 /parkingLotSpotPick/
+/run.sh
 /support/
