@@ -9,24 +9,14 @@ public class ParkingLot {
 	private int levels;
 	private int price;
 	
-	
-	
 	private parkingSlot parkingSlots [][][];
-	private HashMap<String, HashMap<String, LinkedList<parkingSlot>>> parkingLotledger;
-	public LinkedList<String> ownersCars(String owner) {
-		HashMap<String, LinkedList<parkingSlot>> cars = parkingLotledger.get(owner);
-		LinkedList<String> carsplate = new LinkedList<String>();
-		for (String key : parkingLotledger.keySet()){
-			carsplate.add(key);
-		}
-		return carsplate;
-	}
+	private HashMap<String, LinkedList<parkingSlot>> parkingLotledger;
+	
 	public int toPossitive(int n) {
 		if(n <=0)
 			return 1;
 		return n;
 	}
-	
 	
 	public ParkingLot(int nlevel, int nrow, int nslotN, int nprice) {
 
@@ -35,7 +25,7 @@ public class ParkingLot {
 		spots = toPossitive(nslotN);
 		price = toPossitive(nprice);
 		
-		parkingLotledger = new HashMap<String, HashMap<String, LinkedList<parkingSlot>>>();
+		parkingLotledger = new HashMap<String, LinkedList<parkingSlot>>();
 		
 		parkingSlots = new parkingSlot[levels][rows][spots];
 		for(int l = 0;l<levels;l++) {
