@@ -40,8 +40,7 @@ public class parkingLotProgram {
 			//checks to see if the user wants to remove by checking the input against the remove string
 			else{
 				int carSize = parking.toPossitive(ap.nextInt("How big is your car?"));
-				String plates = ap.nextString("What is your license plate number?");
-				Vehicle car = new Vehicle(name, carSize, plates);//size doesnt matter for now
+				Vehicle car = new Vehicle(name, carSize);
 				while(true) {
 					input = ap.nextString("Do you want to us to park your car for you?(Yes or No)");
 					if (input.equals("Yes")) {
