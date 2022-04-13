@@ -7,9 +7,9 @@ import org.junit.Test;
 public class UnitTests {
 	ParkingLot smallParking;
 	ParkingLot bigParking;
-	Vehicle car = new Vehicle("z", 1,"abc");
-	Vehicle van = new Vehicle("a", 2,"abd");
-	Vehicle bus = new Vehicle("b", 3,"abe");
+	Vehicle car = new Vehicle("z", 1);
+	Vehicle van = new Vehicle("a", 2);
+	Vehicle bus = new Vehicle("b", 3);
 
 	@Test
 	void ownerTest() {
@@ -29,10 +29,9 @@ public class UnitTests {
 	void rowParkingTest() {
 		ParkingLot smallParking = new ParkingLot(1,1,5,2) ;
 		assertTrue(smallParking.park(car, "z"));
+		assertTrue(smallParking.park(van, "a"));
 		smallParking.park(van, "a");
-		assertTrue(smallParking.findOwner("z"));
-		assertTrue(smallParking.findOwner("a"));
-		assertFalse(smallParking.findOwner("b"));
+
 	}
 	
 	
