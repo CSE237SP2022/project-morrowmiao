@@ -19,12 +19,13 @@ public class Menu {
 
 	}
 	
+	//Since this function has mostly just prints and argprocessor inputs, 
+	//in addition to that there are multiple breaks for the whileloop, it is better to not divide up the function.
 	private void parkCar(String ownerName, String plate) {
 		String input = "";
 		int carSize = parking.toPossitive(ap.nextInt("How big is your car?"));
 		if (plate.isEmpty()) {
 			plate = ap.nextString("What is the license plate of your car");
-			parking.addOwner(ownerName);
 		}
 		Vehicle car = new Vehicle(ownerName, carSize, plate);
 		while(true) {
