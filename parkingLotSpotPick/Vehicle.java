@@ -10,6 +10,8 @@ public class Vehicle {
 		Size = slotsNeeded;
 		plate = index;
 	}
+
+
 	public String getPlate() {
 		return plate;
 	}
