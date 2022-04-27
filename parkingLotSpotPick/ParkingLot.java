@@ -9,14 +9,25 @@ public class ParkingLot {
 	private int levels;
 	private int price;
 	
-	private parkingSlot parkingSlots [][][];
-	private HashMap<String, LinkedList<parkingSlot>> parkingLotledger;
 	
+	
+	private parkingSlot parkingSlots [][][];
+	private HashMap<String, HashMap<String, LinkedList<parkingSlot>>> parkingLotledger;
+	
+	public LinkedList<String> ownersCars(String owner) {
+		HashMap<String, LinkedList<parkingSlot>> cars = parkingLotledger.get(owner);
+		LinkedList<String> carsplate = new LinkedList<String>();
+		for (String key : cars.keySet()){
+			carsplate.add(key);
+		}
+		return carsplate;
+	}
 	public int toPossitive(int n) {
 		if(n <=0)
 			return 1;
 		return n;
 	}
+	
 	
 	public ParkingLot(int nlevel, int nrow, int nslotN, int nprice) {
 
@@ -25,7 +36,7 @@ public class ParkingLot {
 		spots = toPossitive(nslotN);
 		price = toPossitive(nprice);
 		
-		parkingLotledger = new HashMap<String, LinkedList<parkingSlot>>();
+		parkingLotledger = new HashMap<String, HashMap<String, LinkedList<parkingSlot>>>();
 		
 		parkingSlots = new parkingSlot[levels][rows][spots];
 		for(int l = 0;l<levels;l++) {
@@ -107,7 +118,7 @@ public class ParkingLot {
 				return false;
 			}
 		}
-		parkingLotledger.put(ownerName, foundSlots);
+		parkingLotledger.get(ownerName).put(car.getPlate(), foundSlots);
 		return true;
 	}
 	
@@ -121,16 +132,27 @@ public class ParkingLot {
 				return false;
 			}
 		}
-		parkingLotledger.put(ownerName, foundSlots);
+		parkingLotledger.get(ownerName).put(ownerName, foundSlots);
 		return true;
 	}
+	
 	public boolean findOwner(String ownerName) {
 		return parkingLotledger.containsKey(ownerName);
 	}	
 	
-	public long leave(String ownerName) {
+	public boolean findCarbyOwner(String ownerName, String plate) {
+		return parkingLotledger.get(ownerName).containsKey(plate);
+	}
+	public void addOwner(String ownerName) {
+		parkingLotledger.put(ownerName, new HashMap<String, LinkedList<parkingSlot>>());
+		return;
+	}	
+
+	
+	
+	public long leave(String ownerName, String plate) {
 		if(findOwner(ownerName)) {
-			LinkedList<parkingSlot> parkedSlots = parkingLotledger.get(ownerName);
+			LinkedList<parkingSlot> parkedSlots = parkingLotledger.get(ownerName).get(plate);
 			long parkedTime = -1;
 			for (parkingSlot slot : parkedSlots) {
 				parkedTime = slot.leave(ownerName);
@@ -139,6 +161,9 @@ public class ParkingLot {
 				}
 			}
 			if(parkedTime>0) {
+				parkingLotledger.get(ownerName).remove(plate);
+			}
+			if(parkingLotledger.get(ownerName).isEmpty()) {
 				parkingLotledger.remove(ownerName);
 			}
 			return parkedTime;

@@ -1,6 +1,2 @@
-/.classpath
-/.project
-/ArgsProcessor/
-/parkingLotProgram.class
+*.class
 /parkingLotSpotPick/
-/support/
