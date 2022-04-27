@@ -1,13 +1,12 @@
 package parkingLotSpotPick;
 
-import java.util.Arrays;
-
-import support.cse131.ArgsProcessor;
-
 public class parkingLotProgram {
+	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		// TODO Auto-generated method stub
+
+		Menu parkingMenu = new Menu();
+		parkingMenu.menuStart(args);
+
 		ArgsProcessor ap = new ArgsProcessor(args);
 		String quit = "quit";
 		String insert = "insert";
