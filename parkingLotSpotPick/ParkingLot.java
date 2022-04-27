@@ -48,7 +48,15 @@ public class ParkingLot {
 		}
 	}
 	
+	private LinkedList<parkingSlot> constructSlotsPicked (int start, int finish, parkingSlot row []){
+		LinkedList<parkingSlot> slotsPicked = new LinkedList<parkingSlot>();  
+		for (int k = start; k<=finish;k++) {
+			slotsPicked.add(row[k]);
+		}
+		return slotsPicked;
+	}
 	//uses a sliding window to find if its possible to fit the car at spot location
+	//I find it very hard to break up this function, due to the controls like continue and returns
 	private LinkedList<parkingSlot> findSlotsInRow(parkingSlot row [], int slotsNeeded, int spot  ) {
 		if (!row[spot].isEmpty()) {
 			return null;
@@ -61,11 +69,7 @@ public class ParkingLot {
 			int j = i;
 			while (j<row.length && row[j].isEmpty()) {
 				if (j-i >= slotsNeeded-1) {
-					LinkedList<parkingSlot> slotsPicked = new LinkedList<parkingSlot>();  
-					for (int k = i; k<=j;k++) {
-						slotsPicked.add(row[k]);
-					}
-					return slotsPicked;
+					return constructSlotsPicked(i,j,row);
 				}
 				j++;
 			}
@@ -83,11 +87,7 @@ public class ParkingLot {
 			int j = i;
 			while (j<row.length && row[j].isEmpty()) {
 				if (j-i >= slotsNeeded-1) {
-					LinkedList<parkingSlot> slotsPicked = new LinkedList<parkingSlot>();  
-					for (int k = i; k<=j;k++) {
-						slotsPicked.add(row[k]);
-					}
-					return slotsPicked;
+					return constructSlotsPicked(i,j,row);
 				}
 				j++;
 			}
@@ -155,19 +155,24 @@ public class ParkingLot {
 		return;
 	}	
 
-	
+	private long leaveHelper(LinkedList<parkingSlot> parkedSlots, String ownerName) {
+		long parkedTime = -1;
+		for (parkingSlot slot : parkedSlots) {
+			parkedTime = slot.leave(ownerName);
+			if(parkedTime<0) {
+				return -1;
+			}
+		}
+		return parkedTime;
+	}
 	
 	public long leave(String ownerName, String plate) {
 		if(findCarbyOwner(ownerName,plate)) {
 			LinkedList<parkingSlot> parkedSlots = parkingLotledger.get(ownerName).get(plate);
-			long parkedTime = -1;
-			for (parkingSlot slot : parkedSlots) {
-				parkedTime = slot.leave(ownerName);
-				if(parkedTime<0) {
-					return -1;
-				}
-			}
-			if(parkedTime>0) {
+			long parkedTime = leaveHelper(parkedSlots, ownerName);
+			if(parkedTime<0) {
+				return -1;
+			}else {
 				parkingLotledger.get(ownerName).remove(plate);
 			}
 			if(parkingLotledger.get(ownerName).isEmpty()) {
